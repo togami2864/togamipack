@@ -1,8 +1,6 @@
-const fs = require("fs");
-const { path } = require("path");
-
-type absolutePath = string;
-type relativePath = string;
+import fs from "fs";
+import path from "path";
+import { absolutePath, relativePath } from "./types/common";
 
 type IO = {
   entryFile: absolutePath;
