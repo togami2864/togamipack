@@ -16,6 +16,6 @@ export const typeChecker = (entryFile: absolutePath): void => {
     console.error("Error Occurred");
     process.exit(TYPE_ERROR);
   } else {
-    console.log("Compiled Successfully");
+    console.log("There are no Type Error");
   }
 };

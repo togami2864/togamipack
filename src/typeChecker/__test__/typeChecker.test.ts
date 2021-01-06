@@ -5,7 +5,7 @@ describe("typeChecker", () => {
   it("compiled successfully", () => {
     const consoleMock = jest.spyOn(console, "log");
     const result = typeChecker("example/__test__/typeChecker/success.ts");
-    expect(consoleMock).toHaveBeenCalledWith("Compiled Successfully");
+    expect(consoleMock).toHaveBeenCalledWith("There are no Type Error");
   });
   it("type error", () => {
     const consoleMock = jest.spyOn(console, "error");

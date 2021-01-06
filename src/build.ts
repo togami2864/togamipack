@@ -1,18 +1,12 @@
 import fs from "fs";
 import path from "path";
-import { absolutePath, relativePath } from "./types/common";
+import { absolutePath, relativePath, Graph } from "./types/common";
+import { createDependencyGraph } from "./graph/graph";
 
 type IO = {
   entryFile: absolutePath;
   outputDir: absolutePath;
 };
-
-type Graph = {
-  id: number;
-  filePath: relativePath;
-  dependency: relativePath[];
-  code: string;
-}[];
 
 type Bundle = {
   name: string;
