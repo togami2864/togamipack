@@ -1,11 +1,10 @@
-import fs from "fs";
-import path from "path";
+import { readFileSync } from "fs";
+import path = require("path");
 import { parse } from "@babel/parser";
 import traverse from "@babel/traverse";
-import babel from "@babel/core";
-import { absolutePath, relativePath } from "../types/common";
+import { transformSync } from "@babel/core";
+import { absolutePath, relativePath, Graph } from "../types/common";
 import { typeChecker } from "../typeChecker/typeChecker";
-import { Graph } from "../types/common";
 
 let ID = 0;
 
@@ -26,12 +25,12 @@ export const createDependencyGraph = (entryFile: absolutePath) => {
   return queue;
 };
 
-const createModule = (filePath: absolutePath) => {
-  const content = fs.readFileSync(filePath, "utf-8");
+export const createModule = (filePath: absolutePath) => {
+  const content = readFileSync(filePath, "utf-8");
   return new Module(filePath, content);
 };
 
-class Module {
+export class Module {
   filePath: absolutePath;
   id: number;
   dependencies: relativePath[];
@@ -57,7 +56,8 @@ class Module {
     return dependencies;
   }
   transpileCode(content) {
-    const { code } = babel.transformSync(content, {
+    const { code } = transformSync(content, {
+      filename: this.filePath,
       presets: ["@babel/preset-env", "@babel/preset-typescript"],
     });
     return code;
