@@ -3,34 +3,10 @@ import path = require("path");
 import { parse } from "@babel/parser";
 import traverse from "@babel/traverse";
 import { transformSync } from "@babel/core";
-import { absolutePath, relativePath, Graph } from "../types/common";
-import { typeChecker } from "../typeChecker/typeChecker";
-
+import { absolutePath, relativePath } from "../types/common";
 let ID = 0;
 
-export const createDependencyGraph = (entryFile: absolutePath) => {
-  typeChecker(entryFile);
-  const rootModule = createModule(entryFile);
-  const queue = [rootModule];
-  for (const asset of queue) {
-    const dirName = path.dirname(asset.filePath);
-    asset.dependencies.forEach((relativePath) => {
-      const absolutePath = path.join(dirName, relativePath);
-      typeChecker(absolutePath);
-      const childModule = createModule(absolutePath);
-      asset.mapping[relativePath] = childModule.id;
-      queue.push(childModule);
-    });
-  }
-  return queue;
-};
-
-export const createModule = (filePath: absolutePath) => {
-  const content = readFileSync(filePath, "utf-8");
-  return new Module(filePath, content);
-};
-
-export class Module {
+export class assetGenerator {
   filePath: absolutePath;
   id: number;
   dependencies: relativePath[];
