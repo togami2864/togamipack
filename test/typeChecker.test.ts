@@ -14,7 +14,7 @@ describe("typeChecker", () => {
       const consoleMock = jest.spyOn(console, "error");
       const exitMock = mockProcessExit();
       typeChecker("test/example/error.ts");
-      expect(consoleMock).toHaveBeenCalledWith("Error Occurred");
+      expect(consoleMock).toHaveBeenCalled();
       expect(exitMock).toHaveBeenCalledWith(1);
     });
   });

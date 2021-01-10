@@ -1,8 +1,6 @@
-import { readFileSync } from "fs";
-import path = require("path");
 import { parse } from "@babel/parser";
 import traverse from "@babel/traverse";
-import { transformSync } from "@babel/core";
+import { transformSync, BabelFileResult } from "@babel/core";
 import { absolutePath, relativePath } from "../types/common";
 let ID = 0;
 
@@ -12,16 +10,16 @@ export class assetGenerator {
   dependencies: relativePath[];
   code: string;
   mapping: object;
-  constructor(filePath: absolutePath, content) {
+  constructor(filePath: absolutePath, code: string) {
     this.filePath = filePath;
     this.id = ID++;
-    this.dependencies = this.findDependency(content);
-    this.code = this.transpileCode(content);
+    this.dependencies = this.findDependency(code);
+    this.code = this.transpileToCJS(code);
     this.mapping = {};
   }
-  findDependency(content) {
+  findDependency(code: string) {
     const dependencies: relativePath[] = [];
-    const ast = parse(content, {
+    const ast = parse(code, {
       sourceType: "module",
     });
     traverse(ast, {
@@ -31,10 +29,10 @@ export class assetGenerator {
     });
     return dependencies;
   }
-  transpileCode(content) {
-    const { code } = transformSync(content, {
+  transpileToCJS(code) {
+    code = transformSync(code, {
       filename: this.filePath,
-      presets: ["@babel/preset-env", "@babel/preset-typescript"],
+      presets: ["@babel/preset-env"],
     });
     return code;
   }
