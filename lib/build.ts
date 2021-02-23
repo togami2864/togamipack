@@ -16,8 +16,8 @@ type Bundle = {
 
 const build = ({ entryFile, outputDir }: IO) => {
   const graph = createDependencyGraph(entryFile);
+  console.log(graph);
   const outputFiles = createBundle(graph);
-  console.log(outputFiles[0].code);
   for (const outputFile of outputFiles) {
     fs.writeFileSync(
       path.join(outputDir, outputFile.name),

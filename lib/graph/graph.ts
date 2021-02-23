@@ -1,15 +1,18 @@
 import path from "path";
+import { MessagePort } from "worker_threads";
 import { createAsset } from "../asset/createAsset";
+import { Asset } from "../asset/asset";
 import { absolutePath, relativePath } from "../types/common";
 
 export const createDependencyGraph = (entryFile: absolutePath) => {
-  const rootAsset = createAsset(entryFile);
+  const MODULE_CASH = new Map<string, Asset>();
+  const rootAsset = createAsset(entryFile, MODULE_CASH);
   const queue = [rootAsset];
   for (const asset of queue) {
     const dirName = path.dirname(asset.filePath);
     asset.dependencies.forEach((relativePath) => {
-      const absolutePath = path.join(dirName, relativePath);
-      const childModule = createAsset(absolutePath);
+      const filePath = path.join(dirName, relativePath);
+      const childModule = createAsset(filePath, MODULE_CASH);
       asset.mapping[relativePath] = childModule.id;
       queue.push(childModule);
     });

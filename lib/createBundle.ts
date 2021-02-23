@@ -3,7 +3,7 @@ export const createBundle = (graph) => {
   graph.forEach((mod) => {
     modules += `${mod.id}:[
       function(require,module,exports){
-        ${mod.code.code}
+        ${mod.code}
       },
       ${JSON.stringify(mod.mapping)},
     ],`;
