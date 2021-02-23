@@ -16,5 +16,3 @@ export const createDependencyGraph = (entryFile: absolutePath) => {
   }
   return queue;
 };
-
-console.log(createDependencyGraph("test/example/valid"));

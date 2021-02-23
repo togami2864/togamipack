@@ -4,7 +4,7 @@ import { transformSync, BabelFileResult } from "@babel/core";
 import { absolutePath, relativePath } from "../types/common";
 let ID = 0;
 
-export class assetGenerator {
+export class Asset {
   filePath: absolutePath;
   id: number;
   dependencies: relativePath[];
