@@ -30,10 +30,10 @@ export class Asset {
     return dependencies;
   }
   transpileToCJS(code) {
-    code = transformSync(code, {
+    const CJSCode = transformSync(code, {
       filename: this.filePath,
       presets: ["@babel/preset-env"],
-    });
-    return code;
+    }).code;
+    return CJSCode;
   }
 }
